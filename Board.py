@@ -28,8 +28,7 @@ class Board:
         print(u'\t\u0041\t\u0042\t\u0043\t\u0044\t\u0045\t\u0046\t\u0047\t\u0048')
 
     def getPiece(self, x, y):
-        print(self.spots[x][y].piece.name)
-        pass
+        return self.spots[x][y].piece.name
 
     def init(self, color):
         if color == 'B':
