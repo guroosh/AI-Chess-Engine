@@ -2,15 +2,25 @@ from random import randint
 
 from Board import Board
 
+from Move import Move
 
 def printBoard(board):
     board.printBoard()
 
 
-def getMove(board):
+def getMove(board, example=''):
     printBoard(board)
-    move = input('Do next move: ')
-    return move
+    move = input('Do next move '+example+': ')
+    move = Move(move)
+    while True:
+        if move.isValidInput():
+            if move.isValidRule(board):
+                break
+            else:
+                move = input('Not valid according to rules, enter again: ')
+        else:
+            move = input('Please enter a valid move: ')
+    return 1
 
 
 def updateBoard(board, move):
@@ -40,13 +50,18 @@ def main():
     print(color)
     board = initBoard(color)
     if color == 'B':
-        move = getMove(board)
+        move = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
         board = updateBoard(board, move)
+    done_first_move = False
     while True:
         tree = makeTree()
         nextMove = evaluateTree(tree)
         board = updateBoard(board, nextMove)
-        nextMove = getMove(board)
+        if not done_first_move:
+            nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
+            done_first_move = True
+        else:
+            nextMove = getMove(board)
         board = updateBoard(board, nextMove)
 
 
