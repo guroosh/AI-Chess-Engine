@@ -1,7 +1,7 @@
 from Piece import Piece
 
 
-class Bishop(Piece):
+class Queen(Piece):
     def __init__(self, available, x, y):
         super().__init__(available, x, y)
 
@@ -9,5 +9,9 @@ class Bishop(Piece):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
         if abs(fromX - toX) == abs(fromY - toY):
+            return True
+        if toX == fromX:
+            return True
+        if toY == fromY:
             return True
         return False

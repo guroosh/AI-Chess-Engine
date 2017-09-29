@@ -30,6 +30,8 @@ class Move(object):
         y1 = 8 - y1
         x2 = x2 - 65
         y2 = 8 - y2
-        piece = board.getPiece(y1, x1)
+        piece_name = board.getPiece(y1, x1)
+        if piece_name == 'Wknight' or piece_name == 'Bknight':
+            knight = Knight()
         return True
 
