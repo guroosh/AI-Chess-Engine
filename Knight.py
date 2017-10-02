@@ -9,9 +9,15 @@ class Knight(Piece):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
 
-        if toX != fromX - 1 and toX != fromX + 1 and toX != fromX + 2 and toX != fromX - 2:
+        if abs(toX - fromX) == 2:
+            if abs(toY - fromY) is not 1:
+                return False
+            else:
+                return True
+        elif abs(toX - fromX) == 1:
+            if abs(toY - fromY) is not 2:
+                return False
+            else:
+                return True
+        else:
             return False
-        if toY != fromY - 2 and toY != fromY + 2 and toY != fromY - 1 and toY != fromY + 1:
-            return False
-
-        return True
