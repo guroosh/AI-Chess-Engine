@@ -4,6 +4,7 @@ from Piece import Piece
 class King(Piece):
     def __init__(self, available, x, y):
         super().__init__(available, x, y)
+        self.first_move=True
 
     def isValid(self, board, fromX, fromY, toX, toY):
         if not super().isValid(board, fromX, fromY, toX, toY):
@@ -13,5 +14,7 @@ class King(Piece):
             return False
         if toY != fromY - 2 and toY != fromY + 2 and toY != fromY - 1 and toY != fromY + 1:
             return False
+        #enter castling constraints
 
+        self.first_move=False
         return True
