@@ -15,3 +15,21 @@ class Rook(Piece):
             return True
 
         return False
+
+    def isPathAllowed(self,board,fromX,fromY,toX,toY):
+        if toY==fromY:
+            move=toX-fromX/abs(fromX-toX) #+1/-1
+            while(fromX!=toX+move):
+                fromX += move
+                if(board.isSpotVacant(fromX,fromY)==False):
+                    return False
+            return True
+        if toX==fromX:
+            move=toY-fromY/abs(toY-fromY)
+            while(fromY!=toY+move):
+                fromY+=move
+                if (board.isSpotVacant(fromX, fromY) == False):
+                    return False
+            return True
+
+

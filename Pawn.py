@@ -34,3 +34,6 @@ class Pawn(Piece):
                     return False
 
         return True
+
+    def isPathAllowed(self,board,fromX,fromY,toX,toY):
+        return False
