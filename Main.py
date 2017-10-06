@@ -4,19 +4,18 @@ from Board import Board
 
 from Move import Move
 
-
 def printBoard(board):
     board.printBoard()
 
 
 def getMove(board, example=''):
     printBoard(board)
-    move = input('Do next move ' + example + ': ')
+    move = input('Do next move '+example+': ')
     move = Move(move)
     while True:
         if move.isValidInput():
             if move.isValidRule(board):
-                return move
+                return move.coded
             else:
                 move = input('Not valid according to rules, enter again: ')
         else:
@@ -24,6 +23,7 @@ def getMove(board, example=''):
 
 
 def updateBoard(board, move):
+    board.updateBoard(move);
     return board
 
 
@@ -54,10 +54,11 @@ def main():
         board = updateBoard(board, move)
     done_first_move = False
     while True:
-        tree = makeTree()
-        nextMove = evaluateTree(tree)
-        board = updateBoard(board, nextMove)
+        # tree = makeTree()
+        # nextMove = evaluateTree(tree)
+        # board = updateBoard(board, nextMove)
         if not done_first_move:
+            #TODO: check for player vs player alternate move
             nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
             done_first_move = True
         else:

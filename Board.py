@@ -48,3 +48,31 @@ class Board:
             self.spots[6][i] = Spot(1, i, color + 'pawn')
             self.spots[0][i] = Spot(0, i, opponent_color + special[i])
             self.spots[1][i] = Spot(1, i, opponent_color + 'pawn')
+
+    def updateBoard(self, move):
+        move=str(move)
+        print(13, move)
+        x1 = move[0]
+        y1 = move[1]
+        x2 = move[2]
+        y2 = move[3]
+        x1 = ord(x1)
+        y1 = int(y1)
+        x2 = ord(x2)
+        y2 = int(y2)
+        x1 = x1 - 65
+        y1 = 8 - y1
+        x2 = x2 - 65
+        y2 = 8 - y2
+        x1,y1=y1,x1
+        x2,y2=y2,x2
+        self.spots[x2][y2]=Spot(x2,y2,self.spots[x1][y1].piece.name)
+        self.spots[x1][y1]=Spot(x1, y1, '.')
+        #
+        # piece_name = board.getPiece(y1, x1)
+        # if piece_name == 'Wknight' or piece_name == 'Bknight':
+        #     knight = Knight()
+        # piece_name = board.getPiece(y1, x1)
+        # if piece_name is 'Brook' or piece_name == 'Wrook':
+        #     pass
+        # return True
