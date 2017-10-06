@@ -31,6 +31,11 @@ class Board:
         # print(self.spots[x][y].piece.name)
         return self.spots[x][y].piece.name
 
+    def isSpotVacant(self, x, y):
+        if self.spots[x][y].piece.name == '.':
+            return True
+        return False
+
     def init(self, color):
         if color == 'B':
             opponent_color = 'W'
