@@ -11,8 +11,8 @@ def printBoard(board):
 def getMove(board, example=''):
     printBoard(board)
     move = input('Do next move '+example+': ')
-    move = Move(move)
     while True:
+        move = Move(move)
         if move.isValidInput():
             if move.isValidRule(board):
                 return move.coded

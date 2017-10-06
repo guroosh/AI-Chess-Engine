@@ -36,6 +36,11 @@ class Board:
             return True
         return False
 
+    def isSpotOfSameTeam(self,x1,y1,x2,y2):
+        if self.spots[x1][y1].piece.name[0] is self.spots[x2][y2].piece.name[0]:
+            return True
+        return False
+
     def init(self, color):
         if color == 'B':
             opponent_color = 'W'
