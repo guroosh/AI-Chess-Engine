@@ -15,15 +15,15 @@ def getMove(board, example=''):
     while True:
         if move.isValidInput():
             if move.isValidRule(board):
-                break
+                return move.coded
             else:
                 move = input('Not valid according to rules, enter again: ')
         else:
             move = input('Please enter a valid move: ')
-    return 1
 
 
 def updateBoard(board, move):
+    board.updateBoard(move);
     return board
 
 
@@ -54,10 +54,11 @@ def main():
         board = updateBoard(board, move)
     done_first_move = False
     while True:
-        tree = makeTree()
-        nextMove = evaluateTree(tree)
-        board = updateBoard(board, nextMove)
+        # tree = makeTree()
+        # nextMove = evaluateTree(tree)
+        # board = updateBoard(board, nextMove)
         if not done_first_move:
+            #TODO: check for player vs player alternate move
             nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
             done_first_move = True
         else:
