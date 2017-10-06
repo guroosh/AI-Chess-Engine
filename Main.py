@@ -4,23 +4,23 @@ from Board import Board
 
 from Move import Move
 
+
 def printBoard(board):
     board.printBoard()
 
 
 def getMove(board, example=''):
     printBoard(board)
-    move = input('Do next move '+example+': ')
+    move = input('Do next move ' + example + ': ')
     move = Move(move)
     while True:
         if move.isValidInput():
             if move.isValidRule(board):
-                break
+                return move
             else:
                 move = input('Not valid according to rules, enter again: ')
         else:
             move = input('Please enter a valid move: ')
-    return 1
 
 
 def updateBoard(board, move):

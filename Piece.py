@@ -3,7 +3,7 @@
 
 class Piece:
 
-    def __init__(self, name):
+    def tc__init__(self, name):
         self.name = name
         # self.available = available
         # self.x = x

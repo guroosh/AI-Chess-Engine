@@ -68,4 +68,5 @@ class Queen(Piece):
     def isValid(self, board, fromX, fromY, toX, toY):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
+
         return False

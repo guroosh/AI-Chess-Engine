@@ -6,7 +6,7 @@ class Spot(object):
     def __init__(self, x, y, piece=None):
         self.x = x
         self.y = y
-        self.piece = Piece(piece)
+        self.piece = Piece()
 
     def occupySpot(self, piece):
         if self.piece is not None:
