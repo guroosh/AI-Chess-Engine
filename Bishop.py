@@ -48,8 +48,8 @@ def isDestinationEmpty(board, fromX, fromY, toX, toY):
 
 
 class Bishop(Piece):
-    def __init__(self, available, x, y):
-        super().__init__(available, x, y)
+    def __init__(self, name):
+        super().__init__(name)
 
     def isValid(self, board, fromX, fromY, toX, toY):
         if not super().isValid(board, fromX, fromY, toX, toY):
