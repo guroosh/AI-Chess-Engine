@@ -66,7 +66,6 @@ class Piece:
     def isValid(self, board, fromX, fromY, toX, toY):
         if toX == fromX and toY == fromY:
             return False  # connot move anything
-        print('super', self.moved)
         if toX < 0 or toX > 7 or fromX < 0 or fromX > 7 or toY < 0 or toY > 7 or fromY < 0 or fromY > 7:
             return False
         return True

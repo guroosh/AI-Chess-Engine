@@ -48,8 +48,14 @@ def analyse(board, move):
     board.analyse()
     if Global.doesCastle:
         Global.doesCastle = False
-
-    pass
+        if move == 'e1g1' or move == 'E1g1' or move == 'e1G1' or move == 'E1G1':
+            updateBoard(board, 'h1f1')
+        elif move == 'e1c1' or move == 'E1c1' or move == 'e1C1' or move == 'E1C1':
+            updateBoard(board, 'a1d1')
+        elif move == 'e8g8' or move == 'E8g8' or move == 'e8G8' or move == 'E8G8':
+            updateBoard(board, 'h8f8')
+        elif move == 'e8c8' or move == 'E8c8' or move == 'e8C8' or move == 'E8C8':
+            updateBoard(board, 'a8d8')
 
 
 def main():
