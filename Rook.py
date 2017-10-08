@@ -2,13 +2,14 @@ from Piece import Piece
 
 
 class Rook(Piece):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, moved):
+        super().__init__(name, moved)
+        self.moved = moved
 
     def isValid(self, board, fromX, fromY, toX, toY):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
-
+        print('super:', self.moved)
         if toX == fromX or toY == fromY:
             return self.isPathAllowed(board, fromX, fromY, toX, toY)
 

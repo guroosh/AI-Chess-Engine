@@ -3,10 +3,10 @@ from Piece import Piece
 
 
 class Spot(object):
-    def __init__(self, x, y, piece=None):
+    def __init__(self, x, y, piece=None, moved=False):
         self.x = x
         self.y = y
-        self.piece = Piece(piece)
+        self.piece = Piece(piece, moved)
 
     def occupySpot(self, piece):
         if self.piece is not None:

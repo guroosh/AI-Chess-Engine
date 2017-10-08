@@ -27,9 +27,23 @@ class Board:
             print()
         print(u'\t\u0041\t\u0042\t\u0043\t\u0044\t\u0045\t\u0046\t\u0047\t\u0048')
 
+        # for i in range(self.h):
+        #     print(8 - i, '\t', end='')
+        #     for j in range(self.w):
+        #         piece = self.spots[i][j].piece
+        #         if piece.name == '.':
+        #             print(u'\uFE63' + '\t', end='')
+        #         else:
+        #             print(str(piece.moved) + '\t', end='')
+        #     print()
+        # print(u'\t\u0041\t\u0042\t\u0043\t\u0044\t\u0045\t\u0046\t\u0047\t\u0048')
+
     def getPiece(self, x, y):
         # print(self.spots[x][y].piece.name)
         return self.spots[x][y].piece.name
+
+    def getPieceObject(self, x, y):
+        return self.spots[x][y].piece
 
     def isSpotVacant(self, x, y):
         if self.spots[x][y].piece.name == '.':
@@ -249,5 +263,6 @@ class Board:
         y2 = 8 - y2
         x1, y1 = y1, x1
         x2, y2 = y2, x2
-        self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name)
+
+        self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
         self.spots[x1][y1] = Spot(x1, y1, '.')

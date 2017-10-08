@@ -12,8 +12,8 @@ def isDestinationEmpty(board, fromX, fromY, toX, toY):
 
 
 class Knight(Piece):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, moved):
+        super().__init__(name, moved)
 
     def isValid(self, board, fromX, fromY, toX, toY):
         if not super().isValid(board, fromX, fromY, toX, toY):

@@ -51,22 +51,23 @@ class Move(object):
         y2 = 8 - y2
         x1, y1 = y1, x1
         x2, y2 = y2, x2
-        piece_name = board.getPiece(x1, y1)
+        this_piece = board.getPieceObject(x1, y1)
+        piece_name = this_piece.name
         if (turn is 'BLACK' and piece_name[0] is 'W') or (turn is 'WHITE' and piece_name[0] is 'B'):
             print('Not your turn')
             return False
         if piece_name == 'Wknight' or piece_name == 'Bknight':
-            piece = Knight(piece_name)
+            piece = this_piece
         elif piece_name == 'Brook' or piece_name == 'Wrook':
-            piece = Rook(piece_name)
+            piece = this_piece
         elif piece_name == 'Wking' or piece_name == 'Bking':
-            piece = King(piece_name)
+            piece = this_piece
         elif piece_name == 'Wqueen' or piece_name == 'Bqueen':
-            piece = Queen(piece_name)
+            piece = this_piece
         elif piece_name == 'Wbishop' or piece_name == 'Bbishop':
-            piece = Bishop(piece_name)
+            piece = this_piece
         elif piece_name == 'Wpawn' or piece_name == 'Bpawn':
-            piece = Pawn(piece_name)
+            piece = this_piece
         else:
             print('No piece selected')
             return False

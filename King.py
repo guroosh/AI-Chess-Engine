@@ -2,8 +2,8 @@ from Piece import Piece
 
 
 class King(Piece):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name, moved):
+        super().__init__(name, moved)
         self.first_move = True
 
     def isValid(self, board, fromX, fromY, toX, toY):
