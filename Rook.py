@@ -17,15 +17,25 @@ class Rook(Piece):
     def isPathAllowed(self, board, fromX, fromY, toX, toY):
         if toY == fromY:
             move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
-            while fromX != toX:
-                fromX += move
-                if (board.isSpotVacant(fromX, fromY) == False):
+            fromx=fromX
+            while fromx+move != toX:
+                fromx += move
+                if not board.isSpotVacant(fromx, fromY):
                     return False
+            if not board.isSpotVacant(toX, toY):
+                if board.isSpotOfSameTeam(fromX,fromY,toX,toY):
+                    return False
+                return True
             return True
         if toX == fromX:
             move = int((toY - fromY) / abs(toY - fromY))
-            while fromY != toY:
-                fromY += move
-                if (board.isSpotVacant(fromX, fromY) == False):
+            fromy=fromY
+            while fromy+move != toY:
+                fromy += move
+                if not board.isSpotVacant(fromX, fromy):
                     return False
+            if not board.isSpotVacant(toX, toY):
+                if board.isSpotOfSameTeam(fromX, fromY, toX, toY):
+                    return False
+                return True
             return True

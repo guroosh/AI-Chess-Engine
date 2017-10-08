@@ -16,7 +16,7 @@ class Pawn(Piece):
         if self.name[0] is 'W':
             if toX >= fromX:
                 return False
-            if fromX is 6: #first move 2 steps allowed
+            if fromX is 6:  #first move 2 steps allowed
                 if toX<fromX-2:
                   return False
             else:
@@ -26,7 +26,7 @@ class Pawn(Piece):
         elif self.name[0] is 'B':
             if toX <= fromX:
                 return False
-            if fromX is 1: #first move 2 steps allowed
+            if fromX is 1:  #first move 2 steps allowed
                 if toX>fromX+2:
                     return False
             else:
@@ -35,7 +35,7 @@ class Pawn(Piece):
 
         return self.isPathAllowed(board,fromX,fromY,toX,toY)
 
-    def isPathAllowed(self,board,fromX,fromY,toX,toY): 
+    def isPathAllowed(self,board,fromX,fromY,toX,toY):
         move = int((toX - fromX) / abs(fromX - toX))
         if fromY == toY: #straight move
             while fromX != toX:
