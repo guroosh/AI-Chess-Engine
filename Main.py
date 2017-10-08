@@ -23,7 +23,7 @@ def getMove(board, example=''):
 
 
 def updateBoard(board, move):
-    board.updateBoard(move);
+    board.updateBoard(move)
     return board
 
 

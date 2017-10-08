@@ -32,6 +32,7 @@ class Board:
         return self.spots[x][y].piece.name
 
     def isSpotVacant(self, x, y):
+        print(self.spots[x][y].piece.name, x, y)
         if self.spots[x][y].piece.name == '.':
             return True
         return False
@@ -71,9 +72,9 @@ class Board:
         y2 = 8 - y2
         x1,y1=y1,x1
         x2,y2=y2,x2
-        self.spots[x2][y2]=Spot(x2,y2,self.spots[x1][y1].piece.name)
+        self.spots[x2][y2]=Spot(x2, y2, self.spots[x1][y1].piece.name)
         self.spots[x1][y1]=Spot(x1, y1, '.')
-        #
+
         # piece_name = board.getPiece(y1, x1)
         # if piece_name == 'Wknight' or piece_name == 'Bknight':
         #     knight = Knight()

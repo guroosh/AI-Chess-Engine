@@ -15,13 +15,13 @@ class Move(object):
         y1 = self.coded[1]
         x2 = self.coded[2]
         y2 = self.coded[3]
-        if not(65 <= ord(x1) <= 72 or 97 <= ord(x1) <= 104):
+        if not (65 <= ord(x1) <= 72 or 97 <= ord(x1) <= 104):
             return False
-        if not(65 <= ord(x2) <= 72 or 97 <= ord(x2) <= 104):
+        if not (65 <= ord(x2) <= 72 or 97 <= ord(x2) <= 104):
             return False
-        if not(1 <= int(y1) <= 8):
+        if not (1 <= int(y1) <= 8):
             return False
-        if not(1 <= int(y2) <= 8):
+        if not (1 <= int(y2) <= 8):
             return False
         return True
 
@@ -56,7 +56,8 @@ class Move(object):
         else:
             print('No piece selected')
             piece = None
+        #todo change error for none
+        print (piece_name)
         if piece.isValid(board, x1, y1, x2, y2):
             return True
         return False
-

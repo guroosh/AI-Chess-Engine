@@ -1,5 +1,6 @@
 from Piece import Piece
 
+
 def isDestinationEmpty(board, fromX, fromY, toX, toY):
     piece_name = board.getPiece(fromX, fromY)
     piece_name1 = board.getPiece(toX, toY)
@@ -9,26 +10,29 @@ def isDestinationEmpty(board, fromX, fromY, toX, toY):
         return True
     return False
 
-def isPathAllowed(board, fromX, fromY, toX, toY):
+
+def isPathAllowed(self, board, fromX, fromY, toX, toY):
+    print(fromX, fromY, toX, toY)
     if toY == fromY:
-        move = toX - fromX / abs(fromX - toX)  # +1/-1
-        while fromX != toX + move:
+        move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
+        while (fromX != toX):
             fromX += move
-            if not board.isSpotVacant(fromX, fromY):
+            if (board.isSpotVacant(fromX, fromY) == False):
                 return False
         return True
     if toX == fromX:
-        move = toY - fromY / abs(toY - fromY)
-        while fromY != toY + move:
+        move = int((toY - fromY) / abs(toY - fromY))
+        while (fromY != toY):
             fromY += move
-            if not board.isSpotVacant(fromX, fromY):
+            if (board.isSpotVacant(fromX, fromY) == False):
                 return False
         return True
+
 
 def isPathObstructed(board, fromX, fromY, toX, toY):
     goRight = False
     goBelow = False
-    path_len = abs(toX - fromX - 1)
+    path_len = abs(toX - fromX) - 1
 
     if fromX < toX:
         goBelow = True
@@ -38,27 +42,27 @@ def isPathObstructed(board, fromX, fromY, toX, toY):
     if goBelow and goRight:
         for j in range(path_len):
             i = j + 1
-            if board.isSpotVacant(fromX + i, fromY + i):
-                return False
-        return True
+            if not board.isSpotVacant(fromX + i, fromY + i):
+                return True
+        return False
     elif goBelow and not goRight:
         for j in range(path_len):
             i = j + 1
-            if board.isSpotVacant(fromX + i, fromY - i):
-                return False
-        return True
+            if not board.isSpotVacant(fromX + i, fromY - i):
+                return True
+        return False
     elif not goBelow and goRight:
         for j in range(path_len):
             i = j + 1
-            if board.isSpotVacant(fromX - i, fromY + i):
-                return False
-        return True
+            if not board.isSpotVacant(fromX - i, fromY + i):
+                return True
+        return False
     else:
         for j in range(path_len):
             i = j + 1
-            if board.isSpotVacant(fromX - i, fromY - i):
-                return False
-        return True
+            if not board.isSpotVacant(fromX - i, fromY - i):
+                return True
+        return False
 
 
 class Queen(Piece):
