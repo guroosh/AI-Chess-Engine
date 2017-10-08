@@ -1,34 +1,6 @@
 from Piece import Piece
 
 
-def isDestinationEmpty(board, fromX, fromY, toX, toY):
-    piece_name = board.getPiece(fromX, fromY)
-    piece_name1 = board.getPiece(toX, toY)
-    if piece_name1[0] == '.':
-        return True
-    if piece_name[0] is not piece_name1[0]:
-        return True
-    return False
-
-
-def isPathAllowed(self, board, fromX, fromY, toX, toY):
-    print(fromX, fromY, toX, toY)
-    if toY == fromY:
-        move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
-        while (fromX != toX):
-            fromX += move
-            if (board.isSpotVacant(fromX, fromY) == False):
-                return False
-        return True
-    if toX == fromX:
-        move = int((toY - fromY) / abs(toY - fromY))
-        while (fromY != toY):
-            fromY += move
-            if (board.isSpotVacant(fromX, fromY) == False):
-                return False
-        return True
-
-
 def isPathObstructed(board, fromX, fromY, toX, toY):
     goRight = False
     goBelow = False
@@ -65,6 +37,33 @@ def isPathObstructed(board, fromX, fromY, toX, toY):
         return False
 
 
+def isDestinationEmpty(board, fromX, fromY, toX, toY):
+    piece_name = board.getPiece(fromX, fromY)
+    piece_name1 = board.getPiece(toX, toY)
+    if piece_name1[0] == '.':
+        return True
+    if piece_name[0] is not piece_name1[0]:
+        return True
+    return False
+
+
+def isPathAllowed(board, fromX, fromY, toX, toY):
+    if toY == fromY:
+        move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
+        while (fromX != toX):
+            fromX += move
+            if (board.isSpotVacant(fromX, fromY) == False):
+                return False
+        return True
+    if toX == fromX:
+        move = int((toY - fromY) / abs(toY - fromY))
+        while (fromY != toY):
+            fromY += move
+            if (board.isSpotVacant(fromX, fromY) == False):
+                return False
+        return True
+
+
 class Queen(Piece):
     def __init__(self, name):
         super().__init__(name)
@@ -73,4 +72,11 @@ class Queen(Piece):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
 
+        if abs(fromX - toX) == abs(fromY - toY):
+            if (not isPathObstructed(board, fromX, fromY, toX, toY)) and isDestinationEmpty(board, fromX, fromY, toX, toY):
+                return True
+            else:
+                return False
+        elif toX == fromX or toY == fromY:
+            return isPathAllowed(board, fromX, fromY, toX, toY)
         return False

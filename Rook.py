@@ -9,27 +9,23 @@ class Rook(Piece):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
 
-        if toX == fromX:
-            return True
-        if toY == fromY:
-            return True
+        if toX == fromX or toY == fromY:
+            return self.isPathAllowed(board, fromX, fromY, toX, toY)
 
         return False
 
-    def isPathAllowed(self,board,fromX,fromY,toX,toY):
-        if toY==fromY:
-            move=toX-fromX/abs(fromX-toX) #+1/-1
-            while(fromX!=toX+move):
+    def isPathAllowed(self, board, fromX, fromY, toX, toY):
+        if toY == fromY:
+            move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
+            while fromX != toX:
                 fromX += move
-                if(board.isSpotVacant(fromX,fromY)==False):
-                    return False
-            return True
-        if toX==fromX:
-            move=toY-fromY/abs(toY-fromY)
-            while(fromY!=toY+move):
-                fromY+=move
                 if (board.isSpotVacant(fromX, fromY) == False):
                     return False
             return True
-
-
+        if toX == fromX:
+            move = int((toY - fromY) / abs(toY - fromY))
+            while fromY != toY:
+                fromY += move
+                if (board.isSpotVacant(fromX, fromY) == False):
+                    return False
+            return True

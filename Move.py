@@ -15,21 +15,32 @@ class Move(object):
         y1 = self.coded[1]
         x2 = self.coded[2]
         y2 = self.coded[3]
-        if not (65 <= ord(x1) <= 72 or 97 <= ord(x1) <= 104):
+
+        x1 = x1.upper()
+        x2 = x2.upper()
+        try:
+            y1 = int(y1)
+            y2 = int(y2)
+        except ValueError:
             return False
-        if not (65 <= ord(x2) <= 72 or 97 <= ord(x2) <= 104):
+
+        if not (65 <= ord(x1) <= 72):
             return False
-        if not (1 <= int(y1) <= 8):
+        if not (65 <= ord(x2) <= 72):
             return False
-        if not (1 <= int(y2) <= 8):
+        if not (1 <= y1 <= 8):
+            return False
+        if not (1 <= y2 <= 8):
             return False
         return True
 
-    def isValidRule(self, board):
+    def isValidRule(self, board, turn):
         x1 = self.coded[0]
         y1 = self.coded[1]
         x2 = self.coded[2]
         y2 = self.coded[3]
+        x1 = x1.upper()
+        x2 = x2.upper()
         x1 = ord(x1)
         y1 = int(y1)
         x2 = ord(x2)
@@ -41,6 +52,9 @@ class Move(object):
         x1, y1 = y1, x1
         x2, y2 = y2, x2
         piece_name = board.getPiece(x1, y1)
+        if (turn is 'BLACK' and piece_name[0] is 'W') or (turn is 'WHITE' and piece_name[0] is 'B'):
+            print('Not your turn')
+            return False
         if piece_name == 'Wknight' or piece_name == 'Bknight':
             piece = Knight(piece_name)
         elif piece_name == 'Brook' or piece_name == 'Wrook':
@@ -55,9 +69,8 @@ class Move(object):
             piece = Pawn(piece_name)
         else:
             print('No piece selected')
-            piece = None
-        #todo change error for none
-        print (piece_name)
+            return False
+        # print(piece_name)
         if piece.isValid(board, x1, y1, x2, y2):
             return True
         return False

@@ -52,7 +52,6 @@ class Bishop(Piece):
         super().__init__(name)
 
     def isValid(self, board, fromX, fromY, toX, toY):
-        print(fromX, fromY, toX, toY)
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
         if abs(fromX - toX) == abs(fromY - toY):

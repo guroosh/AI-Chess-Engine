@@ -1,25 +1,27 @@
-from random import randint
-
 from Board import Board
 
 from Move import Move
+
 
 def printBoard(board):
     board.printBoard()
 
 
-def getMove(board, example=''):
+def getMove(board, turn, example=''):
     printBoard(board)
-    move = input('Do next move '+example+': ')
+    move = input(turn + example + ': ')
     while True:
-        move = Move(move)
-        if move.isValidInput():
-            if move.isValidRule(board):
-                return move.coded
-            else:
-                move = input('Not valid according to rules, enter again: ')
+        if len(move) is not 4:
+            move = input('Please enter a four digit input (eg: from D2 to D4 -> \'D2D4\'): ')
         else:
-            move = input('Please enter a valid move: ')
+            move = Move(move)
+            if move.isValidInput():
+                if move.isValidRule(board, turn):
+                    return move.coded
+                else:
+                    move = input('Not valid according to rules, enter again: ')
+            else:
+                move = input('Please enter a valid move (eg: from D2 to D4 -> \'D2D4\'): ')
 
 
 def updateBoard(board, move):
@@ -42,28 +44,32 @@ def evaluateTree(tree):
 
 
 def main():
-    color = randint(1, 2)
-    if color == 1:
-        color = 'B'
-    else:
-        color = 'W'
-    print(color)
+    color = 'B'
+    turn = 'WHITE'
     board = initBoard(color)
     if color == 'B':
-        move = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
+        move = getMove(board, 'WHITE', '\'S TURN (eg: from D2 to D4 -> \'D2D4\')')
         board = updateBoard(board, move)
-    done_first_move = False
+        turn = 'BLACK'
+    # done_first_move = False
     while True:
-        # tree = makeTree()
-        # nextMove = evaluateTree(tree)
-        # board = updateBoard(board, nextMove)
-        if not done_first_move:
-            #TODO: check for player vs player alternate move
-            nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
-            done_first_move = True
-        else:
-            nextMove = getMove(board)
+        nextMove = getMove(board, turn, '\'S TURN')
         board = updateBoard(board, nextMove)
+        if turn is 'BLACK':
+            turn = 'WHITE'
+        else:
+            turn = 'BLACK'
+
+            # while True:
+            #     # tree = makeTree()
+            #     # nextMove = evaluateTree(tree)
+            #     # board = updateBoard(board, nextMove)
+            #     if not done_first_move:
+            #         nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
+            #         done_first_move = True
+            #     else:
+            #         nextMove = getMove(board)
+            #     board = updateBoard(board, nextMove)
 
 
 main()

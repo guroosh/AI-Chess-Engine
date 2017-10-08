@@ -13,13 +13,11 @@ class King(Piece):
 
         if toX == fromX -1 or toX == fromX +1:
             if toY>=fromY-1 and toY<=fromY+1:
-                print("yo",self.isPathAllowed(board,fromX,fromY,toX,toY))
                 return self.isPathAllowed(board,fromX,fromY,toX,toY)
 
         if toY == fromY-1 or toY == fromY +1:
-           if toX>=fromX-1 and toX<=fromX+1:
-               print("lo",self.isPathAllowed(board,fromX,fromY,toX,toY))
-               return self.isPathAllowed(board, fromX, fromY, toX, toY)
+            if toX>=fromX-1 and toX<=fromX+1:
+                return self.isPathAllowed(board, fromX, fromY, toX, toY)
 
         #self.first_move=False
 

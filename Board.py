@@ -32,12 +32,11 @@ class Board:
         return self.spots[x][y].piece.name
 
     def isSpotVacant(self, x, y):
-        print(self.spots[x][y].piece.name, x, y)
         if self.spots[x][y].piece.name == '.':
             return True
         return False
 
-    def isSpotOfSameTeam(self,x1,y1,x2,y2):
+    def isSpotOfSameTeam(self, x1, y1, x2, y2):
         if self.spots[x1][y1].piece.name[0] is self.spots[x2][y2].piece.name[0]:
             return True
         return False
@@ -45,23 +44,24 @@ class Board:
     def init(self, color):
         if color == 'B':
             opponent_color = 'W'
-            special = {0: 'rook', 1: 'knight', 2: 'bishop', 3: 'king', 4: 'queen', 5: 'bishop', 6: 'knight', 7: 'rook'}
+            special = {0: 'rook', 1: 'knight', 2: 'bishop', 3: 'queen', 4: 'king', 5: 'bishop', 6: 'knight', 7: 'rook'}
         else:
             opponent_color = 'B'
-            special = {0: 'rook', 1: 'knight', 2: 'bishop', 3: 'queen', 4: 'king', 5: 'bishop', 6: 'knight', 7: 'rook'}
+            special = {0: 'rook', 1: 'knight', 2: 'bishop', 3: 'king', 4: 'queen', 5: 'bishop', 6: 'knight', 7: 'rook'}
         for i in range(self.h):
-            self.spots[7][i] = Spot(0, i, color + special[i])
-            self.spots[6][i] = Spot(1, i, color + 'pawn')
-            self.spots[0][i] = Spot(0, i, opponent_color + special[i])
-            self.spots[1][i] = Spot(1, i, opponent_color + 'pawn')
+            self.spots[7][i] = Spot(0, i, opponent_color + special[i])
+            self.spots[6][i] = Spot(1, i, opponent_color + 'pawn')
+            self.spots[0][i] = Spot(0, i, color + special[i])
+            self.spots[1][i] = Spot(1, i, color + 'pawn')
 
     def updateBoard(self, move):
-        move=str(move)
-        print(13, move)
+        move = str(move)
         x1 = move[0]
         y1 = move[1]
         x2 = move[2]
         y2 = move[3]
+        x1 = x1.upper()
+        x2 = x2.upper()
         x1 = ord(x1)
         y1 = int(y1)
         x2 = ord(x2)
@@ -70,15 +70,8 @@ class Board:
         y1 = 8 - y1
         x2 = x2 - 65
         y2 = 8 - y2
-        x1,y1=y1,x1
-        x2,y2=y2,x2
-        self.spots[x2][y2]=Spot(x2, y2, self.spots[x1][y1].piece.name)
-        self.spots[x1][y1]=Spot(x1, y1, '.')
+        x1, y1 = y1, x1
+        x2, y2 = y2, x2
+        self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name)
+        self.spots[x1][y1] = Spot(x1, y1, '.')
 
-        # piece_name = board.getPiece(y1, x1)
-        # if piece_name == 'Wknight' or piece_name == 'Bknight':
-        #     knight = Knight()
-        # piece_name = board.getPiece(y1, x1)
-        # if piece_name is 'Brook' or piece_name == 'Wrook':
-        #     pass
-        # return True
