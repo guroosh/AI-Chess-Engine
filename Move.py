@@ -57,17 +57,17 @@ class Move(object):
             print('Not your turn')
             return False
         if piece_name == 'Wknight' or piece_name == 'Bknight':
-            piece = this_piece
+            piece = Knight(piece_name,False)
         elif piece_name == 'Brook' or piece_name == 'Wrook':
-            piece = this_piece
+            piece = Rook(piece_name,False)
         elif piece_name == 'Wking' or piece_name == 'Bking':
-            piece = this_piece
+            piece = King(piece_name,False)
         elif piece_name == 'Wqueen' or piece_name == 'Bqueen':
-            piece = this_piece
+            piece = Queen(piece_name,False)
         elif piece_name == 'Wbishop' or piece_name == 'Bbishop':
-            piece = this_piece
+            piece = Bishop(piece_name,False)
         elif piece_name == 'Wpawn' or piece_name == 'Bpawn':
-            piece = this_piece
+            piece = Pawn(piece_name,False)
         else:
             print('No piece selected')
             return False

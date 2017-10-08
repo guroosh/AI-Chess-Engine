@@ -1,6 +1,5 @@
 from Piece import Piece
 
-
 class Pawn(Piece):
     def __init__(self, name, moved):
         super().__init__(name, moved)
@@ -40,7 +39,7 @@ class Pawn(Piece):
         if fromY == toY: #straight move
             while fromX != toX:
                 fromX += move
-                if board.isSpotVacant(fromX, fromY) == False:
+                if not board.isSpotVacant(fromX, fromY):
                     return False
             return True
         else:
