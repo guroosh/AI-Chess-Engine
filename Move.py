@@ -1,11 +1,3 @@
-from Bishop import Bishop
-from King import King
-from Knight import Knight
-from Pawn import Pawn
-from Queen import Queen
-from Rook import Rook
-
-
 class Move(object):
     def __init__(self, coded_move):
         self.coded = coded_move

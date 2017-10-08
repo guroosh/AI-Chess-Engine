@@ -1,6 +1,5 @@
 from Spot import Spot
 
-
 # done
 class Board:
     w = 8
@@ -231,6 +230,9 @@ class Board:
             j = j + 1
 
         return False
+
+    def analyse(self):
+        pass
 
     def init(self, color):
         if color == 'B':

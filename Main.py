@@ -1,4 +1,5 @@
 from Board import Board
+from Global import Global
 
 from Move import Move
 
@@ -43,17 +44,27 @@ def evaluateTree(tree):
     return tree
 
 
+def analyse(board, move):
+    board.analyse()
+    if Global.doesCastle:
+        Global.doesCastle = False
+
+    pass
+
+
 def main():
     color = 'B'
     turn = 'WHITE'
     board = initBoard(color)
     if color == 'B':
         move = getMove(board, 'WHITE', '\'S TURN (eg: from D2 to D4 -> \'D2D4\')')
+        analyse(board, move)
         board = updateBoard(board, move)
         turn = 'BLACK'
     # done_first_move = False
     while True:
         nextMove = getMove(board, turn, '\'S TURN')
+        analyse(board, nextMove)
         board = updateBoard(board, nextMove)
         if turn is 'BLACK':
             turn = 'WHITE'

@@ -1,5 +1,5 @@
 from Piece import Piece
-
+from Global import Global
 
 class King(Piece):
     def __init__(self, name, moved):
@@ -18,9 +18,10 @@ class King(Piece):
             if fromX - 1 <= toX <= fromX + 1:
                 return self.isPathAllowed(board, fromX, fromY, toX, toY)
 
-        if (abs(toY-fromY)==2):
-            if self.castlingPermitted(board,fromX,fromY,toX,toY):
-                #move rook
+        if abs(toY - fromY) == 2:
+            if self.castlingPermitted(board, fromX, fromY, toX, toY):
+                # move rook
+                Global.doesCastle = True
                 return True
             return False
 
@@ -39,27 +40,24 @@ class King(Piece):
         else:
             return False
 
-        # if (self.first_move==True and (fromY==toY and (fromX==toX+2 or fromX==toX-2))) and self.isChecked==False: #castling
-        #     return False #TODO Castling
-
-    def castlingPermitted(self,board,fromX,fromY,toX,toY):
-        if (fromX != toX):
+    def castlingPermitted(self, board, fromX, fromY, toX, toY):
+        if fromX != toX:
             return False
 
         king = board.getPiece(fromX, fromY)
-        if toY==6:  #check for right rook
-            if king.name[0]=="W":
-                rook=board.getPiece(7,7)
+        if toY == 6:  # check for right rook
+            if king.name[0] == "W":
+                rook = board.getPiece(7, 7)
             else:
-                rook=board.getPiece(0,7)
-            pos=7
+                rook = board.getPiece(0, 7)
+            pos = 7
 
-        elif toY==2: #check for left rook
-            if king.name[0]=="W":
-                rook = board.getPiece(7,0)
+        elif toY == 2:  # check for left rook
+            if king.name[0] == "W":
+                rook = board.getPiece(7, 0)
             else:
-                rook = board.getPiece(0,0)
-            pos=0
+                rook = board.getPiece(0, 0)
+            pos = 0
         else:
             return False
 
@@ -68,18 +66,18 @@ class King(Piece):
         if king.moved or rook.moved:
             return False
 
-        color=king.name[0]
+        color = king.name[0]
         move = int((toY - fromY) / abs(toY - fromY))
-        fromy=fromY
-        while(fromY!=toY):
-            if board.isChecked(color,fromX,fromY):
+        fromy = fromY
+        while fromY != toY:
+            if board.isChecked(color, fromX, fromY):
                 return False
-            fromY+=move
-        fromY=fromy
+            fromY += move
+        fromY = fromy
 
-        while(fromY+move!=pos):
-            if(not board.isSpotVacant(fromX,fromY)):
+        while fromY + move != pos:
+            if not board.isSpotVacant(fromX, fromY):
                 return False
-            fromY+=move
+            fromY += move
 
         return True
