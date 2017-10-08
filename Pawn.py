@@ -35,7 +35,7 @@ class Pawn(Piece):
 
         return self.isPathAllowed(board,fromX,fromY,toX,toY)
 
-    def isPathAllowed(self,board,fromX,fromY,toX,toY):
+    def isPathAllowed(self,board,fromX,fromY,toX,toY): 
         move = int((toX - fromX) / abs(fromX - toX))
         if fromY == toY: #straight move
             while fromX != toX:
