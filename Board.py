@@ -37,8 +37,185 @@ class Board:
         return False
 
     def isSpotOfSameTeam(self, x1, y1, x2, y2):
-        if self.spots[x1][y1].piece.name[0] is self.spots[x2][y2].piece.name[0]:
+        if self.spots[x1][y1].piece.name[0] == self.spots[x2][y2].piece.name[0]:
             return True
+        return False
+
+    def isChecked(self, color, x, y):
+        if color == 'W':
+            adver = 'B'
+        else:
+            adver = 'W'
+
+        # by pawn
+        try:
+            p1 = self.spots[x - 1][y - 1].piece.name
+        except IndexError:
+            p1 = '.'
+        try:
+            p2 = self.spots[x - 1][y + 1].piece.name
+        except IndexError:
+            p2 = '.'
+        if p1 == adver + 'pawn' or p2 == adver + 'pawn':
+            return True
+
+        # by knight
+        try:
+            p1 = self.spots[x - 1][y - 2].piece.name
+        except IndexError:
+            p1 = '.'
+        try:
+            p2 = self.spots[x - 1][y + 2].piece.name
+        except IndexError:
+            p2 = '.'
+        try:
+            p3 = self.spots[x + 1][y - 2].piece.name
+        except IndexError:
+            p3 = '.'
+        try:
+            p4 = self.spots[x + 1][y + 2].piece.name
+        except IndexError:
+            p4 = '.'
+        try:
+            p5 = self.spots[x - 2][y - 1].piece.name
+        except IndexError:
+            p5 = '.'
+        try:
+            p6 = self.spots[x - 2][y + 1].piece.name
+        except IndexError:
+            p6 = '.'
+        try:
+            p7 = self.spots[x + 2][y - 1].piece.name
+        except IndexError:
+            p7 = '.'
+        try:
+            p8 = self.spots[x + 2][y + 1].piece.name
+        except IndexError:
+            p8 = '.'
+        if p1 == adver + 'knight' or p2 == adver + 'knight' or p3 == adver + 'knight' \
+                or p4 == adver + 'knight' or p5 == adver + 'knight' or p6 == adver + 'knight' \
+                or p7 == adver + 'knight' or p8 == adver + 'knight':
+            return True
+
+        # by king
+        try:
+            p1 = self.spots[x - 1][y - 1].piece.name
+        except IndexError:
+            p1 = '.'
+        try:
+            p2 = self.spots[x - 1][y + 1].piece.name
+        except IndexError:
+            p2 = '.'
+        try:
+            p3 = self.spots[x - 1][y].piece.name
+        except IndexError:
+            p3 = '.'
+        try:
+            p4 = self.spots[x + 1][y].piece.name
+        except IndexError:
+            p4 = '.'
+        try:
+            p5 = self.spots[x + 1][y - 1].piece.name
+        except IndexError:
+            p5 = '.'
+        try:
+            p6 = self.spots[x + 1][y + 1].piece.name
+        except IndexError:
+            p6 = '.'
+        try:
+            p7 = self.spots[x][y - 1].piece.name
+        except IndexError:
+            p7 = '.'
+        try:
+            p8 = self.spots[x][y + 1].piece.name
+        except IndexError:
+            p8 = '.'
+        if p1 == adver + 'king' or p2 == adver + 'king' or p3 == adver + 'king' \
+                or p4 == adver + 'king' or p5 == adver + 'king' or p6 == adver + 'king' \
+                or p7 == adver + 'king' or p8 == adver + 'king':
+            return True
+
+        # by rook/queen
+        i = x - 1
+        j = y
+        while i >= 0:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'rook' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+
+            i = i - 1
+        i = x + 1
+        j = y
+        while i <= 7:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'rook' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            i = i + 1
+        i = x
+        j = y - 1
+        while j >= 0:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'rook' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            j = j - 1
+        i = x
+        j = y + 1
+        while j <= 7:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'rook' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            j = j + 1
+
+        # by bishop/queen
+        i = x - 1
+        j = y - 1
+        while i >= 0 and j >= 0:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'bishop' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            i = i - 1
+            j = j - 1
+        i = x + 1
+        j = y - 1
+        while i <= 7 and j >= 0:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'bishop' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            i = i + 1
+            j = j - 1
+        i = x - 1
+        j = y + 1
+        while i >= 0 and j <= 7:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'bishop' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            i = i - 1
+            j = j + 1
+        i = x + 1
+        j = y + 1
+        while i <= 7 and j <= 7:
+            p = self.spots[i][j].piece.name
+            if p == adver + 'bishop' or p == adver + 'queen':
+                return True
+            elif not p == '.':
+                break
+            i = i + 1
+            j = j + 1
+
         return False
 
     def init(self, color):
@@ -74,4 +251,3 @@ class Board:
         x2, y2 = y2, x2
         self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name)
         self.spots[x1][y1] = Spot(x1, y1, '.')
-
