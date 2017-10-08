@@ -46,7 +46,7 @@ def isDestinationEmpty(board, fromX, fromY, toX, toY):
         return True
     return False
 
-def isPathAllowed(self, board, fromX, fromY, toX, toY):
+def isPathAllowed(board, fromX, fromY, toX, toY):
     if toY == fromY:
         move = int((toX - fromX) / abs(fromX - toX))  # +1/-1
         fromx=fromX
