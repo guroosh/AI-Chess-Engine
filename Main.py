@@ -12,7 +12,7 @@ def getMove(board, turn, example=''):
     printBoard(board)
     move = input(turn + example + ': ')
     while True:
-        if len(move) is not 4:
+        if len(move) != 4:
             move = input('Please enter a four digit input (eg: from D2 to D4 -> \'D2D4\'): ')
         else:
             move = Move(move)
@@ -58,35 +58,71 @@ def analyse(board, move):
             updateBoard(board, 'a8d8')
 
 
+def autoMove(board, turn):
+    printBoard(board)
+    print()
+    print()
+    move = board.getRandomMove(turn[0])
+    return move
+
+
+# def main():
+#     color = 'B'
+#     turn = 'WHITE'
+#     board = initBoard(color)
+#     if color == 'B':
+#         move = getMove(board, 'WHITE', '\'S TURN (eg: from D2 to D4 -> \'D2D4\')')
+#         analyse(board, move)
+#         board = updateBoard(board, move)
+#         turn = 'BLACK'
+#     # done_first_move = False
+#     while True:
+#         nextMove = getMove(board, turn, '\'S TURN')
+#         analyse(board, nextMove)
+#         board = updateBoard(board, nextMove)
+#         if turn is 'BLACK':
+#             turn = 'WHITE'
+#         else:
+#             turn = 'BLACK'
+#
+#             # while True:
+#             #     # tree = makeTree()
+#             #     # nextMove = evaluateTree(tree)
+#             #     # board = updateBoard(board, nextMove)
+#             #     if not done_first_move:
+#             #         nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
+#             #         done_first_move = True
+#             #     else:
+#             #         nextMove = getMove(board)
+#             #     board = updateBoard(board, nextMove)
+
+
 def main():
+    # auto M vs M
     color = 'B'
     turn = 'WHITE'
+    print('INITIAL board')
     board = initBoard(color)
     if color == 'B':
-        move = getMove(board, 'WHITE', '\'S TURN (eg: from D2 to D4 -> \'D2D4\')')
+        move = autoMove(board, turn)
         analyse(board, move)
+        print(turn + '\'s turn')
         board = updateBoard(board, move)
         turn = 'BLACK'
     # done_first_move = False
+    count = 0
     while True:
-        nextMove = getMove(board, turn, '\'S TURN')
+        nextMove = autoMove(board, turn)
         analyse(board, nextMove)
+        print(turn + '\'s turn')
         board = updateBoard(board, nextMove)
-        if turn is 'BLACK':
+        if turn == 'BLACK':
             turn = 'WHITE'
         else:
             turn = 'BLACK'
-
-            # while True:
-            #     # tree = makeTree()
-            #     # nextMove = evaluateTree(tree)
-            #     # board = updateBoard(board, nextMove)
-            #     if not done_first_move:
-            #         nextMove = getMove(board, '(eg: from D2 to D4 -> \'D2D4\')')
-            #         done_first_move = True
-            #     else:
-            #         nextMove = getMove(board)
-            #     board = updateBoard(board, nextMove)
+        count += 1
+        if count > 10000:
+            break
 
 
 main()

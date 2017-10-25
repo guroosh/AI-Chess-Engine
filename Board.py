@@ -1,6 +1,26 @@
 from Spot import Spot
 
-# done
+
+def getCurrPosition(move):
+    x1 = move[0]
+    y1 = move[1]
+    x2 = move[2]
+    y2 = move[3]
+    x1 = x1.upper()
+    x2 = x2.upper()
+    x1 = ord(x1)
+    y1 = int(y1)
+    x2 = ord(x2)
+    y2 = int(y2)
+    x1 = x1 - 65
+    y1 = 8 - y1
+    x2 = x2 - 65
+    y2 = 8 - y2
+    x1, y1 = y1, x1
+    x2, y2 = y2, x2
+    return x1, y1
+
+
 class Board:
     w = 8
     h = 8
@@ -246,6 +266,23 @@ class Board:
             self.spots[6][i] = Spot(1, i, opponent_color + 'pawn')
             self.spots[0][i] = Spot(0, i, color + special[i])
             self.spots[1][i] = Spot(1, i, color + 'pawn')
+
+    def getRandomMove(self, color):
+        all_moves = []
+        for i in range(self.h):
+            for j in range(self.w):
+                piece = self.spots[i][j].piece
+                # print(piece.name)
+                if piece.name != '.':
+                    if piece.name[0] == color:
+                        this_moves = piece.getAllPossibleMoves(self, i, j)
+                        all_moves += this_moves
+        import random
+        ret_val = random.choice(all_moves)
+        x, y = getCurrPosition(ret_val)
+        piece_name = self.getPiece(x, y)
+        print('Moved: ', piece_name)
+        return ret_val
 
     def updateBoard(self, move):
         move = str(move)

@@ -1,4 +1,15 @@
-# done
+def encoded(x1, y1, x2, y2):
+    if not(0 <= x1 <= 7 and 0 <= x2 <= 7 and 0 <= y1 <= 7 and 0 <= y2 <= 7):
+        return 'outside'
+    y1 = y1 + 65
+    ret_val = chr(y1)
+    x1 = 8 - x1
+    ret_val += str(x1)
+    y2 = y2 + 65
+    ret_val += chr(y2)
+    x2 = 8 - x2
+    ret_val += str(x2)
+    return ret_val
 
 
 class Piece:
@@ -69,3 +80,29 @@ class Piece:
         if toX < 0 or toX > 7 or fromX < 0 or fromX > 7 or toY < 0 or toY > 7 or fromY < 0 or fromY > 7:
             return False
         return True
+
+    def getAllPossibleMoves(self, board, i, j):
+        color = self.name[0]
+        name = self.name[1:]
+        if name == 'rook':
+            from Rook import Rook
+            piece = Rook(name, False)
+        elif name == 'knight':
+            from Knight import Knight
+            piece = Knight(name, False)
+        elif name == 'king':
+            from King import King
+            piece = King(name, False)
+        elif name == 'queen':
+            from Queen import Queen
+            piece = Queen(name, False)
+        elif name == 'bishop':
+            from Bishop import Bishop
+            piece = Bishop(name, False)
+        elif name == 'pawn':
+            from Pawn import Pawn
+            piece = Pawn(name, False)
+        else:
+            return []
+        piece_moves = piece.getPossibleMoves(board, color, i, j)
+        return piece_moves

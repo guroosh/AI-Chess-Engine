@@ -1,4 +1,4 @@
-from Piece import Piece
+from Piece import Piece, encoded
 
 
 def isPathObstructed(board, fromX, fromY, toX, toY):
@@ -90,3 +90,33 @@ class Queen(Piece):
         elif toX == fromX or toY == fromY:
             return isPathAllowed(board, fromX, fromY, toX, toY)
         return False
+
+    def getPossibleMoves(self, board, color, i, j):
+        ret_list = []
+        physical_moves = []
+        for k in [1, 2, 3, 4, 5, 6, 7]:
+            move = encoded(i, j, i - k, j - k)
+            physical_moves.append(move)
+            move = encoded(i, j, i + k, j + k)
+            physical_moves.append(move)
+            move = encoded(i, j, i - k, j + k)
+            physical_moves.append(move)
+            move = encoded(i, j, i + k, j - k)
+            physical_moves.append(move)
+        for k in range(8):
+            if k != i:
+                move = encoded(i, j, k, j)
+                physical_moves.append(move)
+            if k != j:
+                move = encoded(i, j, i, k)
+                physical_moves.append(move)
+        if color == 'B':
+            turn = 'BLACK'
+        else:
+            turn = 'WHITE'
+        for m in physical_moves:
+            from Move import Move
+            move = Move(m)
+            if move.isValidRule(board, turn):
+                ret_list.append(move.coded)
+        return ret_list

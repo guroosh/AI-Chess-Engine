@@ -1,4 +1,4 @@
-from Piece import Piece
+from Piece import Piece, encoded
 
 
 def isPathObstructed(board, fromX, fromY, toX, toY):
@@ -55,6 +55,30 @@ class Bishop(Piece):
         if not super().isValid(board, fromX, fromY, toX, toY):
             return False
         if abs(fromX - toX) == abs(fromY - toY):
-            if (not isPathObstructed(board, fromX, fromY, toX, toY)) and isDestinationEmpty(board, fromX, fromY, toX, toY):
+            if (not isPathObstructed(board, fromX, fromY, toX, toY)) and isDestinationEmpty(board, fromX, fromY, toX,
+                                                                                            toY):
                 return True
         return False
+
+    def getPossibleMoves(self, board, color, i, j):
+        ret_list = []
+        physical_moves = []
+        for k in [1, 2, 3, 4, 5, 6, 7]:
+            move = encoded(i, j, i - k, j - k)
+            physical_moves.append(move)
+            move = encoded(i, j, i + k, j + k)
+            physical_moves.append(move)
+            move = encoded(i, j, i - k, j + k)
+            physical_moves.append(move)
+            move = encoded(i, j, i + k, j - k)
+            physical_moves.append(move)
+        if color == 'B':
+            turn = 'BLACK'
+        else:
+            turn = 'WHITE'
+        for m in physical_moves:
+            from Move import Move
+            move = Move(m)
+            if move.isValidRule(board, turn):
+                ret_list.append(move.coded)
+        return ret_list

@@ -1,3 +1,11 @@
+from Bishop import Bishop
+from King import King
+from Knight import Knight
+from Pawn import Pawn
+from Queen import Queen
+from Rook import Rook
+
+
 class Move(object):
     def __init__(self, coded_move):
         self.coded = coded_move
@@ -27,6 +35,8 @@ class Move(object):
         return True
 
     def isValidRule(self, board, turn):
+        if self.coded == 'outside':
+            return False
         x1 = self.coded[0]
         y1 = self.coded[1]
         x2 = self.coded[2]
@@ -49,17 +59,17 @@ class Move(object):
             print('Not your turn')
             return False
         if piece_name == 'Wknight' or piece_name == 'Bknight':
-            piece = Knight(piece_name,False)
+            piece = Knight(piece_name, False)
         elif piece_name == 'Brook' or piece_name == 'Wrook':
-            piece = Rook(piece_name,False)
+            piece = Rook(piece_name, False)
         elif piece_name == 'Wking' or piece_name == 'Bking':
-            piece = King(piece_name,False)
+            piece = King(piece_name, False)
         elif piece_name == 'Wqueen' or piece_name == 'Bqueen':
-            piece = Queen(piece_name,False)
+            piece = Queen(piece_name, False)
         elif piece_name == 'Wbishop' or piece_name == 'Bbishop':
-            piece = Bishop(piece_name,False)
+            piece = Bishop(piece_name, False)
         elif piece_name == 'Wpawn' or piece_name == 'Bpawn':
-            piece = Pawn(piece_name,False)
+            piece = Pawn(piece_name, False)
         else:
             print('No piece selected')
             return False

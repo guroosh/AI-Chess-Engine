@@ -1,4 +1,4 @@
-from Piece import Piece
+from Piece import Piece, encoded
 
 
 def isDestinationEmpty(board, fromX, fromY, toX, toY):
@@ -37,3 +37,33 @@ class Knight(Piece):
                     return False
         else:
             return False
+
+    def getPossibleMoves(self, board, color, i, j):
+        ret_list = []
+        physical_moves = []
+        move = encoded(i, j, i - 1, j - 2)
+        physical_moves.append(move)
+        move = encoded(i, j, i - 2, j - 1)
+        physical_moves.append(move)
+        move = encoded(i, j, i + 1, j + 2)
+        physical_moves.append(move)
+        move = encoded(i, j, i + 2, j + 1)
+        physical_moves.append(move)
+        move = encoded(i, j, i - 1, j + 2)
+        physical_moves.append(move)
+        move = encoded(i, j, i - 2, j + 1)
+        physical_moves.append(move)
+        move = encoded(i, j, i + 1, j - 2)
+        physical_moves.append(move)
+        move = encoded(i, j, i + 2, j - 1)
+        physical_moves.append(move)
+        if color == 'B':
+            turn = 'BLACK'
+        else:
+            turn = 'WHITE'
+        for m in physical_moves:
+            from Move import Move
+            move = Move(m)
+            if move.isValidRule(board, turn):
+                ret_list.append(move.coded)
+        return ret_list
