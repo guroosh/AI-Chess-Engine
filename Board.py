@@ -284,6 +284,35 @@ class Board:
         print('Moved: ', piece_name)
         return ret_val
 
+    def evaluateBoard(self):
+        wPoints=0
+        bPoints=0
+        for i in range(self.h):
+            for j in range(self.w):
+                if not self.isSpotVacant(i,j):
+                    piece=self.getPiece(i,j)
+                    temp=0
+                    if piece[1:0] == 'rook':
+                        temp+=0
+                    elif piece[1:0] == 'knight':
+                        temp+=0
+                    elif piece[1:0] == 'bishop':
+                        temp+=0
+                    elif piece[1:0] == 'queen':
+                        temp+=0
+                    elif piece[1:0] == 'king':
+                        temp+=0
+                    elif piece[1:0] == 'pawn':
+                        temp+=10
+                    else:
+                        temp+=0
+
+                    if piece[0]=='W':
+                        wPoints+=temp
+                    else:
+                        bPoints+=temp
+        return wPoints,bPoints
+
     def updateBoard(self, move):
         move = str(move)
         x1 = move[0]
