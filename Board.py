@@ -311,6 +311,7 @@ class Board:
                         wPoints+=temp
                     else:
                         bPoints+=temp
+                        
         return wPoints,bPoints
 
     def updateBoard(self, move):
