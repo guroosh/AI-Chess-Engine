@@ -292,17 +292,17 @@ class Board:
                 if not self.isSpotVacant(i,j):
                     piece=self.getPiece(i,j)
                     temp=0
-                    if piece[1:0] == 'rook':
-                        temp+=0
-                    elif piece[1:0] == 'knight':
-                        temp+=0
-                    elif piece[1:0] == 'bishop':
-                        temp+=0
-                    elif piece[1:0] == 'queen':
-                        temp+=0
-                    elif piece[1:0] == 'king':
-                        temp+=0
-                    elif piece[1:0] == 'pawn':
+                    if piece[1:] == 'rook':
+                        temp+=50
+                    elif piece[1:] == 'knight':
+                        temp+=30
+                    elif piece[1:] == 'bishop':
+                        temp+=30
+                    elif piece[1:] == 'queen':
+                        temp+=90
+                    elif piece[1:] == 'king':
+                        temp+=900
+                    elif piece[1:] == 'pawn':
                         temp+=10
                     else:
                         temp+=0
@@ -311,7 +311,7 @@ class Board:
                         wPoints+=temp
                     else:
                         bPoints+=temp
-                        
+        print("yo:",wPoints,bPoints)
         return wPoints,bPoints
 
     def updateBoard(self, move):

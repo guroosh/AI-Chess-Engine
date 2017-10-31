@@ -108,6 +108,8 @@ def main():
         analyse(board, move)
         print(turn + '\'s turn')
         board = updateBoard(board, move)
+        w,b=board.evaluateBoard()
+        print("White: ",w,", Black: ",b);
         turn = 'BLACK'
     # done_first_move = False
     count = 0
@@ -116,6 +118,9 @@ def main():
         analyse(board, nextMove)
         print(turn + '\'s turn')
         board = updateBoard(board, nextMove)
+        w, b = board.evaluateBoard()
+        print("White: ", w, ", Black: ", b);
+
         if turn == 'BLACK':
             turn = 'WHITE'
         else:
