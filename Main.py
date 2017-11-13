@@ -1,7 +1,11 @@
+import copy
+
 from Board import Board
 from Global import Global
-
 from Move import Move
+from Piece import Piece
+from Spot import Spot
+from TreeNode import TreeNode
 
 
 def printBoard(board):
@@ -36,8 +40,51 @@ def initBoard(color):
     return board
 
 
-def makeTree():
-    return 1
+def getTempUpdatedBoard(board, m):
+    temp_board = board.nextPossibleBoard(m)
+    return temp_board
+
+
+def my_copy(board):
+    temp_board = Board()
+    for i in range(board.h):
+        for j in range(board.w):
+            piece_name = board.spots[i][j].piece.name
+            piece = Piece(piece_name, moved=False)
+            spot = Spot(i, j, piece, moved=False)
+            temp_board.spots[i][j] = spot
+    return temp_board
+
+
+def flipTurn(turn):
+    if turn[0] == 'B':
+        turn = 'W'
+    else:
+        turn = 'B'
+    return turn
+
+
+def makeTree(board, level, depth, turn):
+    if level == depth:
+        return -1
+    next_moves = board.getAllMoves(turn[0])
+    node = TreeNode()
+    for m in next_moves:
+        temp_board = copy.deepcopy(board)
+        temp_board = getTempUpdatedBoard(temp_board, m)
+        child = makeTree(temp_board, level + 1, depth, flipTurn(turn))
+        if child == -1:
+            if turn == 'B':
+                node.min_val = board.evaluateBoard()[0]
+                node.max_val = board.evaluateBoard()[0]
+            else:
+                node.min_val = board.evaluateBoard()[1]
+                node.max_val = board.evaluateBoard()[1]
+            return node
+        node.max_val = max(node.max_val, child.max_val)
+        node.min_val = min(node.min_val, child.min_val)
+        node.children.append(child)
+    return node
 
 
 def evaluateTree(tree):
@@ -97,19 +144,67 @@ def autoMove(board, turn):
 #             #     board = updateBoard(board, nextMove)
 
 
+# def main():
+#     # auto M vs M random
+#     color = 'B'
+#     turn = 'WHITE'
+#     print('INITIAL board')
+#     board = initBoard(color)
+#     if color == 'B':
+#         move = autoMove(board, turn)
+#         analyse(board, move)
+#         print(turn + '\'s turn')
+#         board = updateBoard(board, move)
+#         w,b=board.evaluateBoard()
+#         print("White: ",w,", Black: ",b);
+#         turn = 'BLACK'
+#     # done_first_move = False
+#     count = 0
+#     while True:
+#         nextMove = autoMove(board, turn)
+#         analyse(board, nextMove)
+#         print(turn + '\'s turn')
+#         board = updateBoard(board, nextMove)
+#         w, b = board.evaluateBoard()
+#         print("White: ", w, ", Black: ", b)
+#
+#         if turn == 'BLACK':
+#             turn = 'WHITE'
+#         else:
+#             turn = 'BLACK'
+#         count += 1
+#         if count > 10000:
+#             break
+
+
+def printTree(node):
+    if node is None:
+        print(None)
+        return
+    print(node.value)
+    for i in node.children:
+        printTree(i)
+    pass
+
+
 def main():
-    # auto M vs M
+    # auto M vs M tree
     color = 'B'
     turn = 'WHITE'
-    print('INITIAL board')
+    # print('INITIAL board')
     board = initBoard(color)
     if color == 'B':
+        root = makeTree(copy.deepcopy(board), 0, 4, turn)
+        for i in range(20):
+            print(len(root.children[i].children[1].children))
+        # printTree(root)
+        exit()
         move = autoMove(board, turn)
         analyse(board, move)
         print(turn + '\'s turn')
         board = updateBoard(board, move)
-        w,b=board.evaluateBoard()
-        print("White: ",w,", Black: ",b);
+        w, b = board.evaluateBoard()
+        print("White: ", w, ", Black: ", b);
         turn = 'BLACK'
     # done_first_move = False
     count = 0
@@ -119,7 +214,7 @@ def main():
         print(turn + '\'s turn')
         board = updateBoard(board, nextMove)
         w, b = board.evaluateBoard()
-        print("White: ", w, ", Black: ", b);
+        print("White: ", w, ", Black: ", b)
 
         if turn == 'BLACK':
             turn = 'WHITE'

@@ -1,3 +1,5 @@
+import copy
+
 from Spot import Spot
 
 
@@ -24,9 +26,9 @@ def getCurrPosition(move):
 class Board:
     w = 8
     h = 8
-    spots = [[0 for x in range(8)] for y in range(8)]
 
     def __init__(self):
+        self.spots = [[0 for x in range(8)] for y in range(8)]
         for i in range(self.h):
             for j in range(self.w):
                 self.spots[i][j] = Spot(i, j, '.')
@@ -267,6 +269,17 @@ class Board:
             self.spots[0][i] = Spot(0, i, color + special[i])
             self.spots[1][i] = Spot(1, i, color + 'pawn')
 
+    def getAllMoves(self, color):
+        all_moves = []
+        for i in range(self.h):
+            for j in range(self.w):
+                piece = self.spots[i][j].piece
+                if piece.name != '.':
+                    if piece.name[0] == color:
+                        this_moves = piece.getAllPossibleMoves(self, i, j)
+                        all_moves += this_moves
+        return all_moves
+
     def getRandomMove(self, color):
         all_moves = []
         for i in range(self.h):
@@ -285,34 +298,59 @@ class Board:
         return ret_val
 
     def evaluateBoard(self):
-        wPoints=0
-        bPoints=0
+        wPoints = 0
+        bPoints = 0
         for i in range(self.h):
             for j in range(self.w):
-                if not self.isSpotVacant(i,j):
-                    piece=self.getPiece(i,j)
-                    temp=0
+                if not self.isSpotVacant(i, j):
+                    piece = self.getPiece(i, j)
+                    temp = 0
                     if piece[1:] == 'rook':
-                        temp+=50
+                        temp += 50
                     elif piece[1:] == 'knight':
-                        temp+=30
+                        temp += 30
                     elif piece[1:] == 'bishop':
-                        temp+=30
+                        temp += 30
                     elif piece[1:] == 'queen':
-                        temp+=90
+                        temp += 90
                     elif piece[1:] == 'king':
-                        temp+=900
+                        temp += 900
                     elif piece[1:] == 'pawn':
-                        temp+=10
+                        temp += 10
                     else:
-                        temp+=0
+                        temp += 0
 
-                    if piece[0]=='W':
-                        wPoints+=temp
+                    if piece[0] == 'W':
+                        wPoints += temp
                     else:
-                        bPoints+=temp
-        print("yo:",wPoints,bPoints)
-        return wPoints,bPoints
+                        bPoints += temp
+        return wPoints, bPoints
+
+    def nextPossibleBoard(self, move):
+        move = str(move)
+        x1 = move[0]
+        y1 = move[1]
+        x2 = move[2]
+        y2 = move[3]
+        x1 = x1.upper()
+        x2 = x2.upper()
+        x1 = ord(x1)
+        y1 = int(y1)
+        x2 = ord(x2)
+        y2 = int(y2)
+        x1 = x1 - 65
+        y1 = 8 - y1
+        x2 = x2 - 65
+        y2 = 8 - y2
+        x1, y1 = y1, x1
+        x2, y2 = y2, x2
+
+        # print(self.spots[0][0].piece.name)
+        ret_val1 = copy.deepcopy(self)
+        ret_val1.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
+        ret_val1.spots[x1][y1] = Spot(x1, y1, '.')
+        # ret_val1.printBoard()
+        return ret_val1
 
     def updateBoard(self, move):
         move = str(move)
@@ -332,6 +370,6 @@ class Board:
         y2 = 8 - y2
         x1, y1 = y1, x1
         x2, y2 = y2, x2
-
+        print(self.spots[0][0].piece.name)
         self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
         self.spots[x1][y1] = Spot(x1, y1, '.')

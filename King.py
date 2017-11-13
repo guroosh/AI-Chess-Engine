@@ -30,7 +30,7 @@ class King(Piece):
         dest = board.getPiece(toX, toY)[0]
 
         if board.isChecked(source, toX, toY):
-            print('Check on destination')
+            # print('Check on destination')
             return False
 
         if (source == 'W' and dest == 'B') or (source == 'B' and dest == 'W'):

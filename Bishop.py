@@ -60,6 +60,7 @@ class Bishop(Piece):
                 return True
         return False
 
+
     def getPossibleMoves(self, board, color, i, j):
         ret_list = []
         physical_moves = []
