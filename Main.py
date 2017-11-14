@@ -58,32 +58,52 @@ def my_copy(board):
 
 def flipTurn(turn):
     if turn[0] == 'B':
-        turn = 'W'
-    else:
-        turn = 'B'
-    return turn
+        return 'W'
+    return 'B'
 
 
-def makeTree(board, level, depth, turn):
+def flipMinimax(minimax):
+    if minimax == 'max':
+        return 'min'
+    return 'max'
+
+
+def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
     if level == depth:
         return -1
     next_moves = board.getAllMoves(turn[0])
     node = TreeNode()
+    best_move = ''
     for m in next_moves:
         temp_board = copy.deepcopy(board)
         temp_board = getTempUpdatedBoard(temp_board, m)
-        child = makeTree(temp_board, level + 1, depth, flipTurn(turn))
+        child = makeTree(temp_board, level + 1, depth, flipTurn(turn), player, flipMinimax(minimax), alpha, beta)
         if child == -1:
-            if turn == 'B':
-                node.min_val = board.evaluateBoard()[0]
-                node.max_val = board.evaluateBoard()[0]
+            wPoints, bPoints = board.evaluateBoard()
+            white_value = wPoints - bPoints
+            black_value = bPoints - wPoints
+            if player == 'B':
+                node.value = black_value
             else:
-                node.min_val = board.evaluateBoard()[1]
-                node.max_val = board.evaluateBoard()[1]
+                node.value = white_value
+            # node.children = None
+            node.move = m
             return node
-        node.max_val = max(node.max_val, child.max_val)
-        node.min_val = min(node.min_val, child.min_val)
-        node.children.append(child)
+        if minimax == 'max':
+            if alpha < child.value:
+                alpha = child.value
+                best_move = m
+                node.value = alpha
+                node.move = best_move
+        else:
+            if beta > child.value:
+                beta = child.value
+                best_move = m
+                node.value = beta
+                node.move = best_move
+        # node.children.append(child)
+        if alpha > beta:
+            return node         # could be return -2 or something or this works as well
     return node
 
 
@@ -177,14 +197,14 @@ def autoMove(board, turn):
 #             break
 
 
-def printTree(node):
-    if node is None:
-        print(None)
-        return
-    print(node.value)
-    for i in node.children:
-        printTree(i)
-    pass
+# def printTree(node):
+#     if node is None:
+#         print(None)
+#         return
+#     print(node.value)
+#     for i in node.children:
+#         printTree(i)
+#     pass
 
 
 def main():
@@ -193,10 +213,13 @@ def main():
     turn = 'WHITE'
     # print('INITIAL board')
     board = initBoard(color)
+    alpha = -10000000
+    beta = 10000000
     if color == 'B':
-        root = makeTree(copy.deepcopy(board), 0, 4, turn)
-        for i in range(20):
-            print(len(root.children[i].children[1].children))
+        root = makeTree(copy.deepcopy(board), 0, 5, turn, turn, "max", alpha, beta)
+        print(root.move)
+        # for i in range(20):
+        #     print(len(root.children[i].children))
         # printTree(root)
         exit()
         move = autoMove(board, turn)
