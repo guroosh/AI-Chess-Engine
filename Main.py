@@ -1,4 +1,6 @@
 import copy
+import random
+import time
 
 from Board import Board
 from Global import Global
@@ -68,12 +70,35 @@ def flipMinimax(minimax):
     return 'max'
 
 
+# def makeTree2(board, level, depth, turn):
+#     if level == depth:
+#         return -1
+#     next_moves = board.getAllMoves(turn[0])
+#     node = TreeNode2()
+#     for m in next_moves:
+#         temp_board = copy.deepcopy(board)
+#         temp_board = getTempUpdatedBoard(temp_board, m)
+#         child = makeTree2(temp_board, level + 1, depth, flipTurn(turn))
+#         if child == -1:
+#             if turn == 'B':
+#                 node.min_val = board.evaluateBoard()[0]
+#                 node.max_val = board.evaluateBoard()[0]
+#             else:
+#                 node.min_val = board.evaluateBoard()[1]
+#                 node.max_val = board.evaluateBoard()[1]
+#             return node
+#         node.max_val = max(node.max_val, child.max_val)
+#         node.min_val = min(node.min_val, child.min_val)
+#         # node.children.append(child)
+#     return node
+
+
 def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
     if level == depth:
         return -1
     next_moves = board.getAllMoves(turn[0])
+    random.shuffle(next_moves)
     node = TreeNode()
-    best_move = ''
     for m in next_moves:
         temp_board = copy.deepcopy(board)
         temp_board = getTempUpdatedBoard(temp_board, m)
@@ -102,8 +127,8 @@ def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
                 node.value = beta
                 node.move = best_move
         # node.children.append(child)
-        if alpha > beta:
-            return node         # could be return -2 or something or this works as well
+        if alpha >= beta:
+            return node  # could be return -2 or something or this works as well
     return node
 
 
@@ -211,33 +236,47 @@ def main():
     # auto M vs M tree
     color = 'B'
     turn = 'WHITE'
+    depth = 3
     # print('INITIAL board')
     board = initBoard(color)
     alpha = -10000000
     beta = 10000000
     if color == 'B':
-        root = makeTree(copy.deepcopy(board), 0, 5, turn, turn, "max", alpha, beta)
+        start_time = time.time()
+        root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
         print(root.move)
+        print(time.time() - start_time)
+        # start_time = time.time()
+        # root = makeTree2(copy.deepcopy(board), 0, 3, turn)
+        # print(time.time() - start_time)
         # for i in range(20):
         #     print(len(root.children[i].children))
         # printTree(root)
-        exit()
-        move = autoMove(board, turn)
-        analyse(board, move)
+        # exit()
+        # move = autoMove(board, turn)
+        analyse(board, root.move)
+        printBoard(board)
         print(turn + '\'s turn')
-        board = updateBoard(board, move)
+        board = updateBoard(board, root.move)
         w, b = board.evaluateBoard()
-        print("White: ", w, ", Black: ", b);
+        print("White: ", w, ", Black: ", b)
         turn = 'BLACK'
     # done_first_move = False
     count = 0
     while True:
-        nextMove = autoMove(board, turn)
-        analyse(board, nextMove)
-        print(turn + '\'s turn')
-        board = updateBoard(board, nextMove)
-        w, b = board.evaluateBoard()
-        print("White: ", w, ", Black: ", b)
+        # nextMove = autoMove(board, turn)
+        start_time = time.time()
+        root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
+        analyse(board, root.move)
+        if count % 10 == 0:
+            print(root.move)
+            print(time.time() - start_time)
+            printBoard(board)
+            print(turn + '\'s turn')
+        board = updateBoard(board, root.move)
+        if count % 10 == 0:
+            w, b = board.evaluateBoard()
+            print("White: ", w, ", Black: ", b)
 
         if turn == 'BLACK':
             turn = 'WHITE'

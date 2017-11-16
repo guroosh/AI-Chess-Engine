@@ -370,6 +370,6 @@ class Board:
         y2 = 8 - y2
         x1, y1 = y1, x1
         x2, y2 = y2, x2
-        print(self.spots[0][0].piece.name)
+        # print(self.spots[0][0].piece.name)
         self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
         self.spots[x1][y1] = Spot(x1, y1, '.')
