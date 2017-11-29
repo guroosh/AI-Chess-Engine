@@ -47,17 +47,6 @@ def getTempUpdatedBoard(board, m):
     return temp_board
 
 
-def my_copy(board):
-    temp_board = Board()
-    for i in range(board.h):
-        for j in range(board.w):
-            piece_name = board.spots[i][j].piece.name
-            piece = Piece(piece_name, moved=False)
-            spot = Spot(i, j, piece, moved=False)
-            temp_board.spots[i][j] = spot
-    return temp_board
-
-
 def flipTurn(turn):
     if turn[0] == 'B':
         return 'W'
@@ -98,20 +87,22 @@ def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
         return -1
     next_moves = board.getAllMoves(turn[0])
     random.shuffle(next_moves)
+    # print(level, depth, turn, player, minimax, alpha, beta  )
     node = TreeNode()
     for m in next_moves:
-        temp_board = copy.deepcopy(board)
-        temp_board = getTempUpdatedBoard(temp_board, m)
+        temp_board1 = copy.deepcopy(board)
+        temp_board = getTempUpdatedBoard(temp_board1, m)
         child = makeTree(temp_board, level + 1, depth, flipTurn(turn), player, flipMinimax(minimax), alpha, beta)
         if child == -1:
-            wPoints, bPoints = board.evaluateBoard()
+            wPoints, bPoints = temp_board.evaluateBoard()
             white_value = wPoints - bPoints
             black_value = bPoints - wPoints
-            if player == 'B':
+
+            if player[0] == 'B':
                 node.value = black_value
             else:
                 node.value = white_value
-            # node.children = None
+            # print(node.value)
             node.move = m
             return node
         if minimax == 'max':
@@ -120,20 +111,24 @@ def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
                 best_move = m
                 node.value = alpha
                 node.move = best_move
+                # print('not in here 1')
+            else:
+                # print('in here 1')
+                continue
         else:
             if beta > child.value:
                 beta = child.value
                 best_move = m
                 node.value = beta
                 node.move = best_move
+                # print('not in here 2')
+            else:
+                # print('in here 2')
+                continue
         # node.children.append(child)
         if alpha >= beta:
             return node  # could be return -2 or something or this works as well
     return node
-
-
-def evaluateTree(tree):
-    return tree
 
 
 def analyse(board, move):
@@ -159,6 +154,7 @@ def autoMove(board, turn):
 
 
 # def main():
+#     # P vs P manual
 #     color = 'B'
 #     turn = 'WHITE'
 #     board = initBoard(color)
@@ -233,7 +229,7 @@ def autoMove(board, turn):
 
 
 def main():
-    # auto M vs M tree
+    # auto M vs M alpha beta pruning
     color = 'B'
     turn = 'WHITE'
     depth = 3
@@ -244,7 +240,7 @@ def main():
     if color == 'B':
         start_time = time.time()
         root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
-        print(root.move)
+        print(root.move, root.value)
         print(time.time() - start_time)
         # start_time = time.time()
         # root = makeTree2(copy.deepcopy(board), 0, 3, turn)
@@ -266,17 +262,23 @@ def main():
     while True:
         # nextMove = autoMove(board, turn)
         start_time = time.time()
+        alpha = -10000000
+        beta = 10000000
+        if turn == 'BLACK':
+            depth = 4
+        else:
+            depth = 2
         root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
         analyse(board, root.move)
-        if count % 10 == 0:
-            print(root.move)
-            print(time.time() - start_time)
-            printBoard(board)
-            print(turn + '\'s turn')
+        # if count % 10 == 0:
+        print(root.move, root.value)
+        print(time.time() - start_time)
+        printBoard(board)
+        print(turn + '\'s turn')
         board = updateBoard(board, root.move)
-        if count % 10 == 0:
-            w, b = board.evaluateBoard()
-            print("White: ", w, ", Black: ", b)
+        # if count % 10 == 0:
+        w, b = board.evaluateBoard()
+        print("White: ", w, ", Black: ", b)
 
         if turn == 'BLACK':
             turn = 'WHITE'

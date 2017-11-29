@@ -76,6 +76,31 @@ class Board:
             return True
         return False
 
+    def clearStraightPath(self, x, y, i, j):
+        if x != i and y != j:
+            print('wrong function called clearStraightPath in board.py')
+            return False
+        if x == i:
+            for l in range(min(y, j) + 1, max(y, j)):
+                if not self.isSpotVacant(x, l):
+                    return False
+            return True
+        else:
+            for l in range(min(x, i) + 1, max(x, i)):
+                if not self.isSpotVacant(l, y):
+                    return False
+            return True
+
+    # def clearDiagonalPath(self, x, y, i, j):
+    #     if abs(x - i) != abs(y - j):
+    #         print('wrong function called clearDiagonalPath in board.py')
+    #         return False
+    #     diff = x - i
+    #     if (x - i) == (y - j):
+    #         for l in range(1, diff):
+    #             if not self.isSpotVacant(i + l, j + l)
+
+
     def isChecked(self, color, x, y):
         if color == 'W':
             adver = 'B'
@@ -176,10 +201,11 @@ class Board:
         while i >= 0:
             p = self.spots[i][j].piece.name
             if p == adver + 'rook' or p == adver + 'queen':
+                # if self.clearStraightPath(x, y, i, j):
+                #     pass
                 return True
             elif not p == '.':
                 break
-
             i = i - 1
         i = x + 1
         j = y
@@ -373,3 +399,17 @@ class Board:
         # print(self.spots[0][0].piece.name)
         self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
         self.spots[x1][y1] = Spot(x1, y1, '.')
+
+    def isCheckedOnBoard(self):
+        isBlackChecked = False
+        isWhiteChecked = False
+        for i in range(self.h):
+            for j in range(self.w):
+                if not self.isSpotVacant(i, j):
+                    piece = self.getPiece(i, j)
+                    if piece[1:] == 'king':
+                        if piece[0] == 'W':
+                            isWhiteChecked = self.isChecked(piece[0], i, j)
+                        else:
+                            isBlackChecked = self.isChecked(piece[0], i, j)
+        return isWhiteChecked, isBlackChecked
