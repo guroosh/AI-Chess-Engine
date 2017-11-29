@@ -91,14 +91,44 @@ class Board:
                     return False
             return True
 
-    # def clearDiagonalPath(self, x, y, i, j):
-    #     if abs(x - i) != abs(y - j):
-    #         print('wrong function called clearDiagonalPath in board.py')
-    #         return False
-    #     diff = x - i
-    #     if (x - i) == (y - j):
-    #         for l in range(1, diff):
-    #             if not self.isSpotVacant(i + l, j + l)
+    def clearDiagonalPath(self, x, y, i, j):
+        if abs(x - i) != abs(y - j):
+            print('wrong function called clearDiagonalPath in board.py')
+            return False
+        xDir = 1
+        yDir = 1
+        if j < y:
+            xDir = -1
+        if i < x:
+            yDir = -1
+
+        if xDir == 1 and yDir == 1:
+            for p in range(x,i):
+                for q in range(y,j):
+                    if not self.isSpotVacant(p,q):
+                        return False
+            return True
+
+        elif xDir == 1 and yDir == -1:
+            for p in range(x,i):
+                for q in range(y,j,-1):
+                    if not self.isSpotVacant(p, q):
+                        return False
+            return True
+
+        elif xDir == -1 and yDir == 1:
+            for p in range(x,i,-1):
+                for q in range(y,j):
+                    if not self.isSpotVacant(p, q):
+                        return False
+            return True
+
+        elif xDir == -1 and yDir == -1:
+            for p in range(x,i,-1):
+                for q in range(y,j,1):
+                    if not self.isSpotVacant(p, q):
+                        return False
+            return True
 
 
     def isChecked(self, color, x, y):
