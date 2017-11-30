@@ -126,8 +126,8 @@ def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
                 # print('in here 2')
                 continue
         # node.children.append(child)
-        if alpha >= beta:
-            return node  # could be return -2 or something or this works as well
+        # if alpha >= beta:
+        #     return node  # could be return -2 or something or this works as well
     return node
 
 
@@ -228,8 +228,65 @@ def autoMove(board, turn):
 #     pass
 
 
+def getString(color, board, move, c):
+    ret_val = color + '_'
+    for i in range(8):
+        for j in range(8):
+            if board.spots[i][j].piece.name == '.':
+                ret_val += '.'
+            elif board.spots[i][j].piece.name == 'Wrook':
+                ret_val += 'Wr'
+            elif board.spots[i][j].piece.name == 'Wknight':
+                ret_val += 'Wn'
+            elif board.spots[i][j].piece.name == 'Wbishop':
+                ret_val += 'Wb'
+            elif board.spots[i][j].piece.name == 'Wking':
+                ret_val += 'Wk'
+            elif board.spots[i][j].piece.name == 'Wqueen':
+                ret_val += 'Wq'
+            elif board.spots[i][j].piece.name == 'Wpawn':
+                ret_val += 'Wp'
+            elif board.spots[i][j].piece.name == 'Brook':
+                ret_val += 'Br'
+            elif board.spots[i][j].piece.name == 'Bknight':
+                ret_val += 'Bn'
+            elif board.spots[i][j].piece.name == 'Bbishop':
+                ret_val += 'Bb'
+            elif board.spots[i][j].piece.name == 'Bking':
+                ret_val += 'Bk'
+            elif board.spots[i][j].piece.name == 'Bqueen':
+                ret_val += 'Bq'
+            elif board.spots[i][j].piece.name == 'Bpawn':
+                ret_val += 'Bp'
+    ret_val += ','
+    ret_val += move
+    ret_val += ', '
+    ret_val += str(c)
+    return ret_val
+
+
+def getStringKeyValue(color, board, move, c):
+    str1 = getString(color, board, move, c)
+    str1 = str1.split(',')
+    return str1[0], str1[1], str1[2]
+
+
 def main():
-    # auto M vs M alpha beta pruning
+    list1 = []
+    list2 = []
+    move_count = 1
+    # with open('data.txt') as f:
+    #     content = f.readlines()
+    # content = [x.strip() for x in content]
+    # d = {}
+    # for i in content:
+    #     a = i.split(',')
+    #     # print(a[0])
+    #     # print(a[1])
+    #     d[a[0]] = (a[1], a[2])
+    # # print(d)
+    #
+    # # auto M vs M alpha beta pruning
     color = 'B'
     turn = 'WHITE'
     depth = 3
@@ -259,34 +316,57 @@ def main():
         turn = 'BLACK'
     # done_first_move = False
     count = 0
+    fromFile = 0
     while True:
         # nextMove = autoMove(board, turn)
         start_time = time.time()
         alpha = -10000000
         beta = 10000000
+        # if turn == 'BLACK':
+        #     depth = 4
+        # else:
+        #     depth = 2
+        k, v, c = getStringKeyValue(turn[0], board, root.move, count)
+        data_string = getString(turn[0], board, root.move, count)
+        # if k in d:
+        #     move = v
+        #     fromFile += 1
+        # else:
         if turn == 'BLACK':
-            depth = 4
+            start_tree_time = time.time()
+            root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
+            move = root.move
+            list1.append(time.time() - start_tree_time)
+            list2.append(move_count)
+            move_count += 1
+            f = open("data.txt", 'a')
+            # f.write(data_string + "\n")
+            f.close()
         else:
-            depth = 2
-        root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
-        analyse(board, root.move)
+            move = autoMove(board, turn)
+
+        analyse(board, move)
         # if count % 10 == 0:
-        print(root.move, root.value)
+        print(move)
         print(time.time() - start_time)
         printBoard(board)
         print(turn + '\'s turn')
-        board = updateBoard(board, root.move)
+        if move == 'FINISH':
+            break
+        board = updateBoard(board, move)
         # if count % 10 == 0:
         w, b = board.evaluateBoard()
         print("White: ", w, ", Black: ", b)
+        # print("From file data learned ", fromFile, '/ ', count, ' times')
 
         if turn == 'BLACK':
             turn = 'WHITE'
         else:
             turn = 'BLACK'
         count += 1
-        if count > 10000:
+        if count > 200:
             break
 
+    print(list1, list2)
 
 main()

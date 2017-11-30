@@ -130,24 +130,65 @@ class Board:
                         return False
             return True
 
+    def isCheckMated(self, color, x, y):
+        if not self.isChecked(color, x, y):
+            return False
+        else:
+            try:
+                if not self.isChecked(color, x - 1, y - 1):
+                    return False
+            except IndexError:
+                try:
+                    if not self.isChecked(color, x - 1, y):
+                        return False
+                except IndexError:
+                    try:
+                        if not self.isChecked(color, x - 1, y + 1):
+                            return False
+                    except IndexError:
+                        try:
+                            if not self.isCheckMated(color, x, y - 1):
+                                return False
+                        except IndexError:
+                            try:
+                                if not self.isCheckMated(color, x, y + 1):
+                                    return False
+                            except IndexError:
+                                try:
+                                    if not self.isCheckMated(color, x + 1, y - 1):
+                                        return False
+                                except IndexError:
+                                    try:
+                                        if not self.isCheckMated(color, x + 1, y):
+                                            return False
+                                    except IndexError:
+                                        try:
+                                            if not self.isCheckMated(color, x + 1, y + 1):
+                                                return False
+                                        except IndexError:
+                                            print("Check Mate!")
+                                            return True
 
     def isChecked(self, color, x, y):
         if color == 'W':
             adver = 'B'
+            pos = -1
         else:
             adver = 'W'
+            pos = +1
 
         # by pawn
         try:
-            p1 = self.spots[x - 1][y - 1].piece.name
+            p1 = self.spots[x - 1 * pos][y - 1 * pos].piece.name
         except IndexError:
             p1 = '.'
         try:
-            p2 = self.spots[x - 1][y + 1].piece.name
+            p2 = self.spots[x - 1 * pos][y + 1 * pos].piece.name
         except IndexError:
             p2 = '.'
         if p1 == adver + 'pawn' or p2 == adver + 'pawn':
             return True
+
 
         # by knight
         try:
@@ -347,10 +388,13 @@ class Board:
                         this_moves = piece.getAllPossibleMoves(self, i, j)
                         all_moves += this_moves
         import random
-        ret_val = random.choice(all_moves)
-        x, y = getCurrPosition(ret_val)
-        piece_name = self.getPiece(x, y)
-        print('Moved: ', piece_name)
+        try:
+            ret_val = random.choice(all_moves)
+            x, y = getCurrPosition(ret_val)
+            piece_name = self.getPiece(x, y)
+            print('Moved: ', piece_name)
+        except IndexError:
+            return 'FINISH'
         return ret_val
 
     def evaluateBoard(self):
@@ -442,4 +486,5 @@ class Board:
                             isWhiteChecked = self.isChecked(piece[0], i, j)
                         else:
                             isBlackChecked = self.isChecked(piece[0], i, j)
+        print(isWhiteChecked, isBlackChecked)
         return isWhiteChecked, isBlackChecked
