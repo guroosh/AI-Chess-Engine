@@ -453,23 +453,26 @@ class Board:
         return ret_val1
 
     def updateBoard(self, move):
-        move = str(move)
-        x1 = move[0]
-        y1 = move[1]
-        x2 = move[2]
-        y2 = move[3]
-        x1 = x1.upper()
-        x2 = x2.upper()
-        x1 = ord(x1)
-        y1 = int(y1)
-        x2 = ord(x2)
-        y2 = int(y2)
-        x1 = x1 - 65
-        y1 = 8 - y1
-        x2 = x2 - 65
-        y2 = 8 - y2
-        x1, y1 = y1, x1
-        x2, y2 = y2, x2
+        try:
+            move = str(move)
+            x1 = move[0]
+            y1 = move[1]
+            x2 = move[2]
+            y2 = move[3]
+            x1 = x1.upper()
+            x2 = x2.upper()
+            x1 = ord(x1)
+            y1 = int(y1)
+            x2 = ord(x2)
+            y2 = int(y2)
+            x1 = x1 - 65
+            y1 = 8 - y1
+            x2 = x2 - 65
+            y2 = 8 - y2
+            x1, y1 = y1, x1
+            x2, y2 = y2, x2
+        except IndexError:
+            return
         # print(self.spots[0][0].piece.name)
         self.spots[x2][y2] = Spot(x2, y2, self.spots[x1][y1].piece.name, True)
         self.spots[x1][y1] = Spot(x1, y1, '.')

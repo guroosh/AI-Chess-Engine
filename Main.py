@@ -126,8 +126,8 @@ def makeTree(board, level, depth, turn, player, minimax, alpha, beta):
                 # print('in here 2')
                 continue
         # node.children.append(child)
-        # if alpha >= beta:
-        #     return node  # could be return -2 or something or this works as well
+        if alpha >= beta:
+            return node  # could be return -2 or something or this works as well
     return node
 
 
@@ -274,17 +274,18 @@ def getStringKeyValue(color, board, move, c):
 def main():
     list1 = []
     list2 = []
+    alpha1 = 0.5
     move_count = 1
-    # with open('data.txt') as f:
-    #     content = f.readlines()
-    # content = [x.strip() for x in content]
-    # d = {}
-    # for i in content:
-    #     a = i.split(',')
-    #     # print(a[0])
-    #     # print(a[1])
-    #     d[a[0]] = (a[1], a[2])
-    # # print(d)
+    with open('data.txt') as f:
+        content = f.readlines()
+    content = [x.strip() for x in content]
+    d = {}
+    for i in content:
+        a = i.split(',')
+        # print(a[0])
+        # print(a[1])
+        d[a[0]] = (a[1], a[2])
+    # print(d)
     #
     # # auto M vs M alpha beta pruning
     color = 'B'
@@ -328,22 +329,29 @@ def main():
         #     depth = 2
         k, v, c = getStringKeyValue(turn[0], board, root.move, count)
         data_string = getString(turn[0], board, root.move, count)
-        # if k in d:
-        #     move = v
-        #     fromFile += 1
-        # else:
-        if turn == 'BLACK':
+        if k in d:
+            move = v
+            root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
+            root.value = root.value + alpha1 * 1000 * (100 - int(c))
+            move1 = root.value
+            fromFile += 1
+        else:
             start_tree_time = time.time()
+            if turn == "BLACK":
+                depth = 3
+            else:
+                depth = 2
             root = makeTree(copy.deepcopy(board), 0, depth, turn, turn, "max", alpha, beta)
             move = root.move
-            list1.append(time.time() - start_tree_time)
-            list2.append(move_count)
+            # list1.append(time.time() - start_tree_time)
+            # list2.append(move_count)
+        if turn == 'BLACK':
             move_count += 1
-            f = open("data.txt", 'a')
-            # f.write(data_string + "\n")
-            f.close()
-        else:
-            move = autoMove(board, turn)
+        f = open("data.txt", 'a')
+        # f.write(data_string + "\n")
+        f.close()
+        # else:
+        #     move = autoMove(board, turn)
 
         analyse(board, move)
         # if count % 10 == 0:
@@ -364,9 +372,9 @@ def main():
         else:
             turn = 'BLACK'
         count += 1
-        if count > 200:
+        if count > 100000:
             break
 
-    print(list1, list2)
+    # print(list1, list2)
 
 main()
